@@ -1,11 +1,4 @@
-{
-  "optionalDependencies": {
-    "fsevents": "^2.3.2"
-  },
-  "devDependencies": {
-    "prettier": "2.8.8"
-  }
-}
+
 {
   "name": "react-app",
   "version": "0.1.0",
