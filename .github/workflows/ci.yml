@@ -2,13 +2,13 @@ name: CI
 on:
   pull_request:
     branches: [develop]
+  push:
+    branches: [develop]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: react-app
+
     steps:
       - uses: actions/checkout@v2
       - name: Use NodeJS
@@ -16,12 +16,17 @@ jobs:
         with:
           node-version: "12.x"
       - run: npm ci
-      #  working-directory: react-app
+        working-directory: react-app
       - run: npm run format:check
-        #working-directory: react-app
+        working-directory: react-app
       - run: npm test -- --coverage
-       # working-directory: react-app
+        working-directory: react-app
         env:
           CI: true
       - name: Build Project
+        working-directory: react-app
+        if: github.event_name == 'push'
         run: npm run build
+      - name: Deploy to Staging
+        if: github.event_name == 'push'
+        run: npx surge --project ./build --domain silent-apparatus.surge.sh
