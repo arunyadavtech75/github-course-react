@@ -6,7 +6,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: react-app
     steps:
       - uses: actions/checkout@v2
       - name: Use NodeJS
@@ -14,10 +16,12 @@ jobs:
         with:
           node-version: "12.x"
       - run: npm ci
-        working-directory: react-app
+      #  working-directory: react-app
       - run: npm run format:check
-        working-directory: react-app
+        #working-directory: react-app
       - run: npm test -- --coverage
-        working-directory: react-app
+       # working-directory: react-app
         env:
           CI: true
+      - name: Build Project
+        run: npm run build
